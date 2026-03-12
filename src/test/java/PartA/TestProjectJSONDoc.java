@@ -1,11 +1,10 @@
+package PartA;
 
 import static io.restassured.RestAssured.*;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import static org.hamcrest.Matchers.*;
-
-import java.util.ArrayList;
 
 import org.junit.jupiter.api.*;
 
@@ -15,6 +14,15 @@ import io.restassured.response.Response;
 public class TestProjectJSONDoc {
     private static final String BASE_URL = "http://localhost:4567";
     private String testProjectId;
+
+    // Helper function
+    public Response linkTaskToProject(String projectId, String taskId) {
+        return given()
+        .contentType(ContentType.JSON)
+        .body("{\"id\":\"" + taskId + "\"}")
+        .when()
+        .post("/projects/" + projectId + "/tasks");
+    }
 
     @BeforeAll
     static void ServiceRunningCheck() {
@@ -162,14 +170,7 @@ public class TestProjectJSONDoc {
         String localId = createResponse.jsonPath().getString("id");
 
         try { // Update parameters
-            given()
-                    .contentType(ContentType.JSON)
-                    .body("{\"id\":\"1\"}")
-                    .when()
-                    .post("/projects/" + localId + "/tasks")
-                    .then()
-                    .log().all()
-                    .statusCode(201);
+            linkTaskToProject(localId, "1").then().statusCode(201);
 
         } finally {
             // Delete project

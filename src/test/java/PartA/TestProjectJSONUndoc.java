@@ -1,10 +1,9 @@
-
+package PartA;
 
 import static io.restassured.RestAssured.*;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import static org.hamcrest.Matchers.*;
 import org.junit.jupiter.api.*;
 
 import io.restassured.response.Response;

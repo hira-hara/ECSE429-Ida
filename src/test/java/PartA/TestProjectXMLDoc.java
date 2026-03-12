@@ -1,3 +1,4 @@
+package PartA;
 import static io.restassured.RestAssured.*;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
