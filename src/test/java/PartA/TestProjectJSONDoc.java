@@ -10,18 +10,42 @@ import org.junit.jupiter.api.*;
 
 import io.restassured.response.Response;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @TestMethodOrder(MethodOrderer.Random.class) // In order to run in any order
 public class TestProjectJSONDoc {
     private static final String BASE_URL = "http://localhost:4567";
     private String testProjectId;
 
-    // Helper function
+    // Helper functions
     public Response linkTaskToProject(String projectId, String taskId) {
         return given()
-        .contentType(ContentType.JSON)
-        .body("{\"id\":\"" + taskId + "\"}")
-        .when()
-        .post("/projects/" + projectId + "/tasks");
+                .contentType(ContentType.JSON)
+                .body("{\"id\":\"" + taskId + "\"}")
+                .when()
+                .post("/projects/" + projectId + "/tasks");
+    }
+
+    public Response createProject(String title, Boolean completed, String description) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("title", title);
+        body.put("completed", completed);
+        body.put("description", description);
+
+        return given()
+                .contentType(ContentType.JSON)
+                .body(body)
+                .when()
+                .post("/projects");
+    }
+
+    public Response getProjectWithId(Object id) {
+        return given()
+                .contentType(ContentType.JSON)
+                .accept(ContentType.JSON)
+                .when()
+                .post("/projects/" + id);
     }
 
     @BeforeAll
@@ -40,7 +64,7 @@ public class TestProjectJSONDoc {
                 .contentType(ContentType.JSON)
                 .when()
                 .get("/projects");
-        
+
         testProjectId = response.jsonPath().getString(("projects[-1].id"));
 
         if (testProjectId == null) {
@@ -73,12 +97,7 @@ public class TestProjectJSONDoc {
     @Test
     @DisplayName("POST /projects JSON")
     void testCreateProject() {
-        Response response = given()
-                .contentType(ContentType.JSON)
-                .body("{\"title\":\"New Project\", \"completed\":false, \"description\":\"new project to do\"}")
-                .when()
-                .post("/projects");
-
+        Response response = createProject("New Project", false, "new project to do");
         String newId = response.jsonPath().getString("id"); // Capture id for immediate cleanup
 
         try {
@@ -110,12 +129,7 @@ public class TestProjectJSONDoc {
     @Test
     @DisplayName("POST /projects/:id JSON")
     void testCreateUpdateDeleteFlow() {
-        Response createResponse = given() // New project acting as old one
-                .contentType(ContentType.JSON)
-                .body("{\"title\":\"Old Project\", \"completed\":false}")
-                .when()
-                .post("/projects");
-
+        Response createResponse = createProject("Old Project", false, null);
         createResponse.then().statusCode(201);
         String localId = createResponse.jsonPath().getString("id");
 
@@ -160,12 +174,7 @@ public class TestProjectJSONDoc {
     @Test
     @DisplayName("POST /projects/:id/tasks JSON")
     void testPostProjectTasks() {
-        Response createResponse = given() // New project acting as old one
-                .contentType(ContentType.JSON)
-                .body("{\"title\":\"Old Project\", \"completed\":false}")
-                .when()
-                .post("/projects");
-
+        Response createResponse = createProject("Old Project", false, null); // New poject acting as old one
         createResponse.then().statusCode(201);
         String localId = createResponse.jsonPath().getString("id");
 
@@ -198,30 +207,22 @@ public class TestProjectJSONDoc {
     @Test
     @DisplayName("DELETE /projects/:id NON EXISTENT ID")
     void testDeleteProjectIDErr() {
-        given()
-                .accept(ContentType.JSON)
-                .when()
-                .delete("/projects/" + 40000)
-                .then()
+        Response res = getProjectWithId(4000);
+        res.then()
                 .statusCode(404)
                 .contentType(ContentType.JSON)
-                .body("errorMessages[0]", equalTo("Could not find any instances with projects/40000"));
+                .body("errorMessages[0]", equalTo("No such project entity instance with GUID or ID 4000 found"));
     }
 
     @Test
     @DisplayName("POST /projects/:id UNDEFINED INPUT")
     void testPostProjectErr() {
-        given()
-            .contentType(ContentType.JSON)
-            .accept(ContentType.JSON)
-            .when()
-            .post("/projects/" + "hello")
-            .then()
-            .log().all()
-            .statusCode(404)
-            .contentType(ContentType.JSON)
-            .body("errorMessages[0]", containsString("No such project entity instance with GUID or ID hello found"));
+        Response res = getProjectWithId("hello");
+        res.then()
+                .log().all()
+                .statusCode(404)
+                .contentType(ContentType.JSON)
+                .body("errorMessages[0]",
+                        containsString("No such project entity instance with GUID or ID hello found"));
     }
-
-
 }

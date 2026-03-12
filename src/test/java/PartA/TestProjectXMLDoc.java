@@ -1,4 +1,5 @@
 package PartA;
+
 import static io.restassured.RestAssured.*;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
@@ -10,6 +11,32 @@ import io.restassured.response.Response;
 public class TestProjectXMLDoc {
     private static final String BASE_URL = "http://localhost:4567";
     private String testProjectId;
+
+    // Helper Functions
+    public Response createProject(String title, Boolean active, String description, Integer id, Boolean completed) {
+        String xmlBody = "<project>" +
+                "<active>" + active + "</active>" +
+                "<description>" + description + "</description>" +
+                "<id>" + id + "</id>" +
+                "<completed>" + completed + "</completed>" +
+                "<title>" + title + "</title>" +
+                "</project>";
+
+        return given()
+                .contentType(ContentType.XML)
+                .accept(ContentType.XML)
+                .body(xmlBody)
+                .when()
+                .post("/projects");
+    }
+
+    public Response getProjectWithId(String id) {
+        return given()
+                .contentType(ContentType.XML)
+                .accept(ContentType.XML)
+                .when()
+                .post("/projects/" + id);
+    }
 
     @BeforeAll
     static void ServiceRunningCheck() {
@@ -27,7 +54,7 @@ public class TestProjectXMLDoc {
                 .accept(ContentType.XML)
                 .when()
                 .get("/projects");
-        
+
         testProjectId = response.xmlPath().getString("projects.project[-1].id");
 
         if (testProjectId == null) {
@@ -58,20 +85,7 @@ public class TestProjectXMLDoc {
     @Test
     @DisplayName("POST /projects XML")
     void testCreateProject() {
-        String xmlBody = "<project>" +
-                        "<active>true</active>" +
-                        "<description>new project to do</description>" +
-                         "<completed>false</completed>" +
-                         "<title>New Project</title>" +
-                         "</project>";
-
-        Response response = given()
-                .contentType(ContentType.XML)
-                .accept(ContentType.XML)
-                .body(xmlBody)
-                .when()
-                .post("/projects");
-
+        Response response = createProject("New Project", true, "new project to do", null, false);
         String newId = response.xmlPath().getString("project.id");
 
         try {
@@ -102,17 +116,11 @@ public class TestProjectXMLDoc {
     @DisplayName("POST /projects/:id XML")
     void testCreateUpdateDeleteFlow() {
         // Create
-        Response createResponse = given()
-                .contentType(ContentType.XML)
-                .accept(ContentType.XML)
-                .body("<project><title>Old Project</title><completed>false</completed></project>")
-                .when()
-                .post("/projects");
-
+        Response createResponse = createProject("Old Project", null, null, null, false);
         createResponse.then().statusCode(201);
         String localId = createResponse.xmlPath().getString("project.id");
 
-        try { 
+        try {
             // Update
             given()
                     .contentType(ContentType.XML)
@@ -145,7 +153,6 @@ public class TestProjectXMLDoc {
                 .body("todos.todo.size()", greaterThan(0));
     }
 
-
     @Test
     @DisplayName("HEAD /projects/:id/tasks XML")
     void testHeadProjectIDTasks() {
@@ -172,13 +179,10 @@ public class TestProjectXMLDoc {
     @Test
     @DisplayName("POST /projects/:id UNDEFINED INPUT XML")
     void testPostProjectErr() {
-        given()
-                .contentType(ContentType.XML)
-                .accept(ContentType.XML)
-                .when()
-                .post("/projects/hello")
-                .then()
+        Response res = getProjectWithId("hello");
+        res.then()
                 .statusCode(404)
-                .body("errorMessages.errorMessage[0]", containsString("No such project entity instance with GUID or ID hello found"));
+                .body("errorMessages.errorMessage[0]",
+                        containsString("No such project entity instance with GUID or ID hello found"));
     }
 }

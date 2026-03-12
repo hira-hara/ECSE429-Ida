@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProjectSteps {
+public class StepDefinitions {
 
     private Response response;
     private String projectId;
@@ -30,13 +30,7 @@ public class ProjectSteps {
     // USER STORY 1: Create Project
     @When("I create a project with title {string} and description {string}")
     public void create_project(String title, String description) {
-        String body = String.format("{\"title\":\"%s\", \"description\":\"%s\"}", title, description);
-        response = given().contentType(ContentType.JSON).body(body).post(BASE_URL);
         
-        if (response.getStatusCode() == 201) {
-            projectId = response.jsonPath().getString("id");
-            createdProjectIds.add(projectId);
-        }
     }
 
     // USER STORY 2: Add Task to Project
