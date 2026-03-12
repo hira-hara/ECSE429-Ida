@@ -20,7 +20,7 @@ public class ProjectSteps {
 
     @After
     public void tearDown() {
-        // Delete projects we created to leave original API data alone
+        // Manage state by deleting projects created
         for (String id : createdProjectIds) {
             given().delete(BASE_URL + "/" + id);
         }
