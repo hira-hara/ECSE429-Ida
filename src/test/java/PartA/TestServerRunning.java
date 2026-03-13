@@ -3,6 +3,7 @@ package PartA;
 import static io.restassured.RestAssured.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import io.restassured.response.Response;
 
 public class TestServerRunning {
     @Test
@@ -15,6 +16,8 @@ public class TestServerRunning {
             .get("/todos")
         .then()
             .statusCode(200); // If this fails, your JAR isn't running!
+        
+        
     }
 }
 

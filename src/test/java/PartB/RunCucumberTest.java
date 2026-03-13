@@ -1,5 +1,6 @@
 package PartB;
 
+import io.cucumber.junit.platform.engine.Constants;
 import org.junit.platform.suite.api.ConfigurationParameter;
 import org.junit.platform.suite.api.IncludeEngines;
 import org.junit.platform.suite.api.SelectClasspathResource;
@@ -12,7 +13,6 @@ import static io.cucumber.junit.platform.engine.Constants.PLUGIN_PROPERTY_NAME;
 @IncludeEngines("cucumber")
 @SelectClasspathResource("features") // Tells it to look in src/test/resources/features
 @ConfigurationParameter(key = GLUE_PROPERTY_NAME, value = "PartB.stepdefinitions") // Links to your code
-@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty, html:target/cucumber-report.html") // Generates a
-                                                                                                        // nice report
+@ConfigurationParameter(key = PLUGIN_PROPERTY_NAME, value = "pretty, html:target/cucumber-report.html") // Generates nice report
 public class RunCucumberTest {
 }

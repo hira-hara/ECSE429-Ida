@@ -185,9 +185,9 @@ public class TestProjectJSONDoc {
             // Delete project
             if (localId != null) {
                 given()
-                        .delete("/projects/" + localId)
-                        .then()
-                        .statusCode(200);
+                    .delete("/projects/" + localId)
+                    .then()
+                    .statusCode(200);
             }
         }
     }
