@@ -35,6 +35,7 @@ public class StepDefinitions {
         createdProjectIds.clear();
     }
 
+    // --GIVEN KEYWORDS--
     // Common for all Story Tests, check if service is running
     @Given("the todo manager service is running")
     public void check_service_running() {
@@ -59,6 +60,7 @@ public class StepDefinitions {
         }
     }
 
+    // --AND KEYWORDS--
     @And("A task with id {string} exits")
     public void check_task_id_exists(String taskId) {
         this.taskId = taskId;
@@ -87,6 +89,23 @@ public class StepDefinitions {
         }
     }
 
+    @And("I set the completed status of project to {string}")
+    public void set_completed(String status) {
+        try {
+            String body = String.format("{\"completed\":\"%s\"}", status);
+            this.response = given().contentType(ContentType.JSON).body(body)
+                    .put(BASE_URL + "/projects/" + this.projectId);
+        } catch (Exception e) {
+            Assumptions.abort("Problem with amending completed because " + e);
+        }
+    }
+
+    @And("the error message should contain {string}")
+    public void verify_error_message(String expectedMsg) {
+        this.response.then().body("errorMessages[0]", containsString(expectedMsg));
+    }
+
+    // --WHEN KEYWORDS--
     // USER STORY 1: Create Project
     @When("I create a project with title {string} and description {string}")
     public void create_project(String title, String description) {
@@ -105,7 +124,7 @@ public class StepDefinitions {
     }
 
     // USER STORY 3: Delete Task from Project
-    @When("I delete the task from the project")
+    @When("I delete the task {string} from the project with id {string}")
     public void delete_task_from_project(String taskId) {
         // Requirement: DELETE /projects/:id/tasks/:id
         this.taskId = taskId;
@@ -117,20 +136,20 @@ public class StepDefinitions {
     public void update_description(String newDesc) {
         // Requirement: PUT /projects/:id
         String body = String.format("{\"description\":\"%s\"}", newDesc);
-        response = given().contentType(ContentType.JSON).body(body).put(BASE_URL + "/projects" + this.projectId);
+        this.response = given().contentType(ContentType.JSON).body(body).put(BASE_URL + "/projects" + this.projectId);
     }
 
     // USER STORY 5: Delete Project
     @When("I delete the project")
     public void delete_project() {
         // Requirement: DELETE /projects/:id
-        response = given().delete(BASE_URL + "/projects" + this.projectId);
+        this.response = given().delete(BASE_URL + "/projects" + this.projectId);
         // Remove from cleanup list
         createdProjectIds.remove(this.projectId);
     }
 
+    // --THEN KEYWORDS--
     // Validations, Then steps
-
     @Then("the status code should be {int}")
     public void verify_status_code(int code) {
         this.response.then().log().ifValidationFails().statusCode(code);

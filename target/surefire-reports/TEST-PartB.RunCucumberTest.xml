@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="PartB.RunCucumberTest" time="3.568" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="PartB.RunCucumberTest" time="3.363" tests="4" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="GB"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Microsoft\jdk-17.0.18.8-hotspot\bin"/>
-    <property name="sun.java.command" value="C:\Users\idasu\AppData\Local\Temp\surefire18202004658999407074\surefirebooter-20260313145045606_3.jar C:\Users\idasu\AppData\Local\Temp\surefire18202004658999407074 2026-03-13T14-50-45_440-jvmRun1 surefire-20260313145045606_1tmp surefire_0-20260313145045606_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\idasu\AppData\Local\Temp\surefire8067218321215081085\surefirebooter-20260314133107598_3.jar C:\Users\idasu\AppData\Local\Temp\surefire8067218321215081085 2026-03-14T13-31-07_470-jvmRun1 surefire-20260314133107598_1tmp surefire_0-20260314133107598_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="test" value="RunCucumberTest"/>
     <property name="surefire.test.class.path" value="C:\Users\idasu\OneDrive\Desktop\Folders\College\McGill\U3\W2026\ECSE429\Project\ECSE429-PartB\target\test-classes;C:\Users\idasu\OneDrive\Desktop\Folders\College\McGill\U3\W2026\ECSE429\Project\ECSE429-PartB\target\classes;C:\Users\idasu\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\idasu\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\idasu\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\idasu\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\idasu\.m2\repository\io\rest-assured\rest-assured\5.4.0\rest-assured-5.4.0.jar;C:\Users\idasu\.m2\repository\org\apache\groovy\groovy\4.0.16\groovy-4.0.16.jar;C:\Users\idasu\.m2\repository\org\apache\groovy\groovy-xml\4.0.16\groovy-xml-4.0.16.jar;C:\Users\idasu\.m2\repository\org\apache\httpcomponents\httpclient\4.5.13\httpclient-4.5.13.jar;C:\Users\idasu\.m2\repository\org\apache\httpcomponents\httpcore\4.4.13\httpcore-4.4.13.jar;C:\Users\idasu\.m2\repository\commons-logging\commons-logging\1.2\commons-logging-1.2.jar;C:\Users\idasu\.m2\repository\commons-codec\commons-codec\1.11\commons-codec-1.11.jar;C:\Users\idasu\.m2\repository\org\apache\httpcomponents\httpmime\4.5.13\httpmime-4.5.13.jar;C:\Users\idasu\.m2\repository\org\ccil\cowan\tagsoup\tagsoup\1.2.1\tagsoup-1.2.1.jar;C:\Users\idasu\.m2\repository\io\rest-assured\json-path\5.4.0\json-path-5.4.0.jar;C:\Users\idasu\.m2\repository\org\apache\groovy\groovy-json\4.0.16\groovy-json-4.0.16.jar;C:\Users\idasu\.m2\repository\io\rest-assured\rest-assured-common\5.4.0\rest-assured-common-5.4.0.jar;C:\Users\idasu\.m2\repository\io\rest-assured\xml-path\5.4.0\xml-path-5.4.0.jar;C:\Users\idasu\.m2\repository\org\apache\commons\commons-lang3\3.11\commons-lang3-3.11.jar;C:\Users\idasu\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\idasu\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;C:\Users\idasu\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.15.2\jackson-databind-2.15.2.jar;C:\Users\idasu\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.15.2\jackson-annotations-2.15.2.jar;C:\Users\idasu\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.15.2\jackson-core-2.15.2.jar;C:\Users\idasu\.m2\repository\org\hamcrest\hamcrest\2.2\hamcrest-2.2.jar;C:\Users\idasu\.m2\repository\org\junit\platform\junit-platform-suite-api\1.10.0\junit-platform-suite-api-1.10.0.jar;C:\Users\idasu\.m2\repository\org\junit\platform\junit-platform-suite-engine\1.10.0\junit-platform-suite-engine-1.10.0.jar;C:\Users\idasu\.m2\repository\org\junit\platform\junit-platform-suite-commons\1.10.0\junit-platform-suite-commons-1.10.0.jar;C:\Users\idasu\.m2\repository\org\junit\platform\junit-platform-launcher\1.10.0\junit-platform-launcher-1.10.0.jar;C:\Users\idasu\.m2\repository\io\cucumber\cucumber-java\7.15.0\cucumber-java-7.15.0.jar;C:\Users\idasu\.m2\repository\io\cucumber\cucumber-core\7.15.0\cucumber-core-7.15.0.jar;C:\Users\idasu\.m2\repository\io\cucumber\cucumber-gherkin\7.15.0\cucumber-gherkin-7.15.0.jar;C:\Users\idasu\.m2\repository\io\cucumber\cucumber-gherkin-messages\7.15.0\cucumber-gherkin-messages-7.15.0.jar;C:\Users\idasu\.m2\repository\io\cucumber\gherkin\26.2.0\gherkin-26.2.0.jar;C:\Users\idasu\.m2\repository\io\cucumber\messages\22.0.0\messages-22.0.0.jar;C:\Users\idasu\.m2\repository\io\cucumber\tag-expressions\6.0.0\tag-expressions-6.0.0.jar;C:\Users\idasu\.m2\repository\io\cucumber\cucumber-expressions\17.0.1\cucumber-expressions-17.0.1.jar;C:\Users\idasu\.m2\repository\io\cucumber\datatable\7.15.0\datatable-7.15.0.jar;C:\Users\idasu\.m2\repository\io\cucumber\cucumber-plugin\7.15.0\cucumber-plugin-7.15.0.jar;C:\Users\idasu\.m2\repository\io\cucumber\docstring\7.15.0\docstring-7.15.0.jar;C:\Users\idasu\.m2\repository\io\cucumber\html-formatter\20.4.0\html-formatter-20.4.0.jar;C:\Users\idasu\.m2\repository\io\cucumber\junit-xml-formatter\0.2.0\junit-xml-formatter-0.2.0.jar;C:\Users\idasu\.m2\repository\io\cucumber\ci-environment\10.0.0\ci-environment-10.0.0.jar;C:\Users\idasu\.m2\repository\io\cucumber\cucumber-junit-platform-engine\7.15.0\cucumber-junit-platform-engine-7.15.0.jar;"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\idasu\AppData\Local\Temp\surefire18202004658999407074\surefirebooter-20260313145045606_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\idasu\AppData\Local\Temp\surefire8067218321215081085\surefirebooter-20260314133107598_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.18+8-LTS"/>
@@ -59,15 +59,15 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="Create a project with valid data" classname="Create Project" time="3.162">
+  <testcase name="Create a project with valid data" classname="Create Project" time="2.518">
     <system-out><![CDATA[
-Scenario Outline: Create a project with valid data                                          &amp#27;[90m# features/US01_CreateProject.feature:7&amp#27;[0m
+Scenario: Create a project with valid data                                                  &amp#27;[90m# features/US01_CreateProject.feature:10&amp#27;[0m
   &amp#27;[32mGiven &amp#27;[0m&amp#27;[32mthe todo manager service is running&amp#27;[0m                                                 &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.check_service_running()&amp#27;[0m
-Captued ID: 7
+Captued ID: 8
   &amp#27;[32mWhen &amp#27;[0m&amp#27;[32mI create a project with title &amp#27;[0m&amp#27;[32m&amp#27;[1m"User Story 1"&amp#27;[0m&amp#27;[32m and description &amp#27;[0m&amp#27;[32m&amp#27;[1m"Test project for US01"&amp#27;[0m &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.create_project(java.lang.String,java.lang.String)&amp#27;[0m
   &amp#27;[32mThen &amp#27;[0m&amp#27;[32mthe status code should be &amp#27;[0m&amp#27;[32m&amp#27;[1m201&amp#27;[0m                                                        &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.verify_status_code(int)&amp#27;[0m
 HTTP/1.1 200 OK
-Date: Fri, 13 Mar 2026 18:50:49 GMT
+Date: Sat, 14 Mar 2026 17:31:10 GMT
 Content-Type: application/json
 Transfer-Encoding: chunked
 Server: Jetty(9.4.z-SNAPSHOT)
@@ -75,7 +75,7 @@ Server: Jetty(9.4.z-SNAPSHOT)
 {
     "projects": [
         {
-            "id": "7",
+            "id": "8",
             "title": "User Story 1",
             "completed": "false",
             "active": "false",
@@ -84,6 +84,54 @@ Server: Jetty(9.4.z-SNAPSHOT)
     ]
 }
   &amp#27;[32mAnd &amp#27;[0m&amp#27;[32mthe project title should be &amp#27;[0m&amp#27;[32m&amp#27;[1m"User Story 1"&amp#27;[0m                                            &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.verify_title(java.lang.String)&amp#27;[0m
+]]></system-out>
+  </testcase>
+  <testcase name="Create a project with only title" classname="Create Project" time="0.118">
+    <system-out><![CDATA[
+Scenario: Create a project with only title                                   &amp#27;[90m# features/US01_CreateProject.feature:17&amp#27;[0m
+  &amp#27;[32mGiven &amp#27;[0m&amp#27;[32mthe todo manager service is running&amp#27;[0m                                  &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.check_service_running()&amp#27;[0m
+Captued ID: 9
+  &amp#27;[32mWhen &amp#27;[0m&amp#27;[32mI create a project with title &amp#27;[0m&amp#27;[32m&amp#27;[1m"Only title project"&amp#27;[0m&amp#27;[32m and description &amp#27;[0m&amp#27;[32m&amp#27;[1m""&amp#27;[0m &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.create_project(java.lang.String,java.lang.String)&amp#27;[0m
+  &amp#27;[32mThen &amp#27;[0m&amp#27;[32mthe status code should be &amp#27;[0m&amp#27;[32m&amp#27;[1m201&amp#27;[0m                                         &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.verify_status_code(int)&amp#27;[0m
+HTTP/1.1 200 OK
+Date: Sat, 14 Mar 2026 17:31:11 GMT
+Content-Type: application/json
+Transfer-Encoding: chunked
+Server: Jetty(9.4.z-SNAPSHOT)
+
+{
+    "projects": [
+        {
+            "id": "9",
+            "title": "Only title project",
+            "completed": "false",
+            "active": "false",
+            "description": ""
+        }
+    ]
+}
+  &amp#27;[32mAnd &amp#27;[0m&amp#27;[32mthe project title should be &amp#27;[0m&amp#27;[32m&amp#27;[1m"Only title project"&amp#27;[0m                       &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.verify_title(java.lang.String)&amp#27;[0m
+]]></system-out>
+  </testcase>
+  <testcase name="Create a project with only description" classname="Create Project" time="0.094">
+    <system-out><![CDATA[
+Scenario: Create a project with only description                                 &amp#27;[90m# features/US01_CreateProject.feature:24&amp#27;[0m
+  &amp#27;[32mGiven &amp#27;[0m&amp#27;[32mthe todo manager service is running&amp#27;[0m                                      &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.check_service_running()&amp#27;[0m
+Captued ID: 10
+  &amp#27;[32mWhen &amp#27;[0m&amp#27;[32mI create a project with title &amp#27;[0m&amp#27;[32m&amp#27;[1m""&amp#27;[0m&amp#27;[32m and description &amp#27;[0m&amp#27;[32m&amp#27;[1m"Only description here!"&amp#27;[0m &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.create_project(java.lang.String,java.lang.String)&amp#27;[0m
+  &amp#27;[32mThen &amp#27;[0m&amp#27;[32mthe status code should be &amp#27;[0m&amp#27;[32m&amp#27;[1m201&amp#27;[0m                                             &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.verify_status_code(int)&amp#27;[0m
+  &amp#27;[32mAnd &amp#27;[0m&amp#27;[32mthe project description should be &amp#27;[0m&amp#27;[32m&amp#27;[1m"Only description here!"&amp#27;[0m                 &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.verify_description(java.lang.String)&amp#27;[0m
+]]></system-out>
+  </testcase>
+  <testcase name="Create a project with an invalid input" classname="Create Project" time="0.157">
+    <system-out><![CDATA[
+Scenario: Create a project with an invalid input                                         &amp#27;[90m# features/US01_CreateProject.feature:31&amp#27;[0m
+  &amp#27;[32mGiven &amp#27;[0m&amp#27;[32mthe todo manager service is running&amp#27;[0m                                              &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.check_service_running()&amp#27;[0m
+Captued ID: 11
+  &amp#27;[32mWhen &amp#27;[0m&amp#27;[32mI create a project with title &amp#27;[0m&amp#27;[32m&amp#27;[1m"Invalid completed"&amp#27;[0m&amp#27;[32m and description &amp#27;[0m&amp#27;[32m&amp#27;[1m"Testing Error"&amp#27;[0m &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.create_project(java.lang.String,java.lang.String)&amp#27;[0m
+  &amp#27;[32mAnd &amp#27;[0m&amp#27;[32mI set the completed status of project to &amp#27;[0m&amp#27;[32m&amp#27;[1m"not a boolean"&amp#27;[0m                           &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.set_completed(java.lang.String)&amp#27;[0m
+  &amp#27;[32mThen &amp#27;[0m&amp#27;[32mthe status code should be &amp#27;[0m&amp#27;[32m&amp#27;[1m400&amp#27;[0m                                                     &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.verify_status_code(int)&amp#27;[0m
+  &amp#27;[32mAnd &amp#27;[0m&amp#27;[32mthe error message should contain &amp#27;[0m&amp#27;[32m&amp#27;[1m"Failed Validation: completed should be BOOLEAN"&amp#27;[0m  &amp#27;[90m# PartB.stepdefinitions.StepDefinitions.verify_error_message(java.lang.String)&amp#27;[0m
 ]]></system-out>
   </testcase>
 </testsuite>
