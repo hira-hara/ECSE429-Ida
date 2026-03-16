@@ -1,11 +1,13 @@
 package PartB.stepdefinitions;
 
 import io.cucumber.java.en.*;
+import io.cucumber.cienvironment.internal.com.eclipsesource.json.Json;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.json.*;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
@@ -22,17 +24,30 @@ public class StepDefinitions {
     private String projectId;
     private String taskId;
     private List<String> createdProjectIds = new ArrayList<>();
+    private List<String> createdTasksIds = new ArrayList<>();
     private final String BASE_URL = "http://localhost:4567";
 
     TestProjectJSONDoc partA = new TestProjectJSONDoc();
 
+    @Before
+    public void setup() {
+        this.projectId = null;
+        this.taskId = null;
+        this.response = null;
+    }
+
     @After
     public void tearDown() {
-        // Manage state by deleting projects created
-        for (String id : createdProjectIds) {
-            given().delete(BASE_URL + "/projects/" + id);
+        // Manage state by deleting projects and tasks created
+        for (String Projectid : createdProjectIds) {
+            given().delete(BASE_URL + "/projects/" + Projectid);
         }
         createdProjectIds.clear();
+
+        for (String Taskid : createdTasksIds) {
+            given().delete(BASE_URL + "/todos/" + Taskid);
+        }
+        createdTasksIds.clear();
     }
 
     // --GIVEN KEYWORDS--
@@ -74,19 +89,13 @@ public class StepDefinitions {
         }
     }
 
-    @And("The task with id {string} is marked as completed")
-    public void check_task_completed(String taskId) {
-        this.taskId = taskId;
-        try {
-            given()
-                    .get(BASE_URL + "/todos/" + this.taskId)
-                    .then()
-                    .statusCode(200)
-                    .contentType(ContentType.JSON)
-                    .body("todos[0].doneStatus", equalTo("true"));
-        } catch (Exception e) {
-            Assumptions.abort("Problem with task because " + e);
-        }
+    @And("the task is marked as completed")
+    public void check_task_completed() {
+        given()
+            .contentType(ContentType.JSON)
+            .body("{\"doneStatus\":true}")
+            .when()
+            .post(BASE_URL + "/todos/" + this.taskId);
     }
 
     @And("I set the completed status of project to {string}")
@@ -105,30 +114,58 @@ public class StepDefinitions {
         this.response.then().body("errorMessages[0]", containsString(expectedMsg));
     }
 
+    @And("I create a project with title {string}")
+    public void create_project_and(String title) {
+        this.response = partA.createProject(title, false, null);
+        this.projectId = this.response.jsonPath().getString("id"); // Capture id for immediate cleanup
+
+        System.out.println("Captued ID: " + this.projectId);
+        createdProjectIds.add(this.projectId);
+    }
+
+    @And("I delete the task")
+    public void delete_task() {
+        this.response = given().delete(BASE_URL + "/todos/" + this.taskId);
+        createdTasksIds.remove(this.taskId);
+    }
+
     // --WHEN KEYWORDS--
     // USER STORY 1: Create Project
     @When("I create a project with title {string} and description {string}")
     public void create_project(String title, String description) {
         this.response = partA.createProject(title, false, description);
         this.projectId = this.response.jsonPath().getString("id"); // Capture id for immediate cleanup
+
         System.out.println("Captued ID: " + this.projectId);
         createdProjectIds.add(this.projectId);
     }
 
     // USER STORY 2: Add Task to Project
-    @When("I add a task with title {string} to the project with id {string}")
-    public void add_task_to_project(String taskId) {
+    @When("I add a task with title {string} and description {string} to the project")
+    public void add_task_to_project(String title, String desc) {
         // Requirement: POST /projects/:id/task
-        this.taskId = taskId;
-        response = partA.linkTaskToProject(this.projectId, this.taskId);
+        this.response = partA.linkTaskToProject(this.projectId, title, false, desc);
+        this.taskId = this.response.jsonPath().getString("id");
+
+        createdTasksIds.add(this.taskId);
+
+        System.out.println("DEBUG US2: ProjectID=" + this.projectId + " TaskID=" + this.taskId);
+    }
+
+    @When("I try to add a task {string} to the project {string}")
+    public void add_task_project_id(String task, String projectId) {
+        this.response = partA.linkTaskToProject(projectId, task, false, null);
+        this.taskId = this.response.jsonPath().getString("id");
+
+        createdTasksIds.add(this.taskId);
     }
 
     // USER STORY 3: Delete Task from Project
-    @When("I delete the task {string} from the project with id {string}")
-    public void delete_task_from_project(String taskId) {
+    @When("I delete the task from the project")
+    public void delete_task_from_project() {
         // Requirement: DELETE /projects/:id/tasks/:id
-        this.taskId = taskId;
-        this.response = given().when().delete(BASE_URL + "/projects" + this.projectId + "/tasks/" + this.taskId);
+        this.response = given().when().delete(BASE_URL + "/projects/" + this.projectId + "/tasks/" + this.taskId);
+        System.out.println("Delete Status: " + this.response.getStatusCode());
     }
 
     // USER STORY 4: Update Description
@@ -136,14 +173,14 @@ public class StepDefinitions {
     public void update_description(String newDesc) {
         // Requirement: PUT /projects/:id
         String body = String.format("{\"description\":\"%s\"}", newDesc);
-        this.response = given().contentType(ContentType.JSON).body(body).put(BASE_URL + "/projects" + this.projectId);
+        this.response = given().contentType(ContentType.JSON).body(body).put(BASE_URL + "/projects/" + this.projectId);
     }
 
     // USER STORY 5: Delete Project
     @When("I delete the project")
     public void delete_project() {
         // Requirement: DELETE /projects/:id
-        this.response = given().delete(BASE_URL + "/projects" + this.projectId);
+        this.response = given().delete(BASE_URL + "/projects/" + this.projectId);
         // Remove from cleanup list
         createdProjectIds.remove(this.projectId);
     }
@@ -169,13 +206,15 @@ public class StepDefinitions {
 
     @Then("the task should appear under the project")
     public void verify_task_added() {
-        given().get(BASE_URL + "/projects" + this.projectId + "/tasks")
-                .then().body("todos.id", hasItem(taskId));
+        // tasksof.id creates a list of just the Ids: ["1", "2"]
+        given().header("Accept", "application/json").when().get(BASE_URL + "/todos/" + this.taskId)
+                .then().log().ifValidationFails().body("todos[0].tasksof.id", hasItem(this.projectId));
     }
 
     @Then("the task should not appear under the project")
     public void verify_task_gone() {
-        given().get(BASE_URL + "/projects" + this.projectId + "/tasks")
-                .then().body("todos.id", not(hasItem(taskId)));
+        given().header("Accept", "application/json").when().get(BASE_URL + "/todos/" + this.taskId)
+                .then().log().ifValidationFails().body("todos[0].tasksof.id", not(hasItem(this.projectId)));
     }
+
 }

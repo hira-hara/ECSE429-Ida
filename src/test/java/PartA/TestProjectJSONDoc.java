@@ -19,10 +19,15 @@ public class TestProjectJSONDoc {
     private String testProjectId;
 
     // Helper functions
-    public Response linkTaskToProject(String projectId, String taskId) {
+    public Response linkTaskToProject(String projectId, String title, Boolean status, String desc) {
+        Map<String, Object> body = new HashMap<>();
+        body.put("title", title);
+        body.put("doneStatus", status);
+        body.put("description", desc);
+
         return given()
                 .contentType(ContentType.JSON)
-                .body("{\"id\":\"" + taskId + "\"}")
+                .body(body)
                 .when()
                 .post("/projects/" + projectId + "/tasks");
     }
@@ -179,15 +184,15 @@ public class TestProjectJSONDoc {
         String localId = createResponse.jsonPath().getString("id");
 
         try { // Update parameters
-            linkTaskToProject(localId, "1").then().statusCode(201);
+            linkTaskToProject(localId, "TestTask", false, null).then().statusCode(201);
 
         } finally {
             // Delete project
             if (localId != null) {
                 given()
-                    .delete("/projects/" + localId)
-                    .then()
-                    .statusCode(200);
+                        .delete("/projects/" + localId)
+                        .then()
+                        .statusCode(200);
             }
         }
     }
