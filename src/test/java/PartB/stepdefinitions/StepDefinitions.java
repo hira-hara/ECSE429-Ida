@@ -92,16 +92,27 @@ public class StepDefinitions {
     @And("the task is marked as completed")
     public void check_task_completed() {
         given()
-            .contentType(ContentType.JSON)
-            .body("{\"doneStatus\":true}")
-            .when()
-            .post(BASE_URL + "/todos/" + this.taskId);
+                .contentType(ContentType.JSON)
+                .body("{\"doneStatus\":true}")
+                .when()
+                .post(BASE_URL + "/todos/" + this.taskId);
     }
 
     @And("I set the completed status of project to {string}")
-    public void set_completed(String status) {
+    public void set_completed_input(String status) {
         try {
             String body = String.format("{\"completed\":\"%s\"}", status);
+            this.response = given().contentType(ContentType.JSON).body(body)
+                    .put(BASE_URL + "/projects/" + this.projectId);
+        } catch (Exception e) {
+            Assumptions.abort("Problem with amending completed because " + e);
+        }
+    }
+
+    @And("the project is marked as completed")
+    public void set_completed() {
+        try {
+            String body = String.format("{\"completed\":\"%s\"}", true);
             this.response = given().contentType(ContentType.JSON).body(body)
                     .put(BASE_URL + "/projects/" + this.projectId);
         } catch (Exception e) {
@@ -176,12 +187,26 @@ public class StepDefinitions {
         this.response = given().contentType(ContentType.JSON).body(body).put(BASE_URL + "/projects/" + this.projectId);
     }
 
+    @When("I update the project {string} description to {string}")
+    public void update_description_id(String projectId, String newDesc) {
+        // Requirement: PUT /projects/:id
+        String body = String.format("{\"description\":\"%s\"}", newDesc);
+        this.response = given().contentType(ContentType.JSON).body(body).put(BASE_URL + "/projects/" + projectId);
+    }
+
     // USER STORY 5: Delete Project
     @When("I delete the project")
     public void delete_project() {
         // Requirement: DELETE /projects/:id
         this.response = given().delete(BASE_URL + "/projects/" + this.projectId);
         // Remove from cleanup list
+        createdProjectIds.remove(this.projectId);
+    }
+
+    @When("I delete the project with id {string}")
+    public void delete_project_id(String projectId) {
+        this.projectId = projectId;
+        this.response = given().delete(BASE_URL + "/projects/" + this.projectId);
         createdProjectIds.remove(this.projectId);
     }
 
@@ -215,6 +240,12 @@ public class StepDefinitions {
     public void verify_task_gone() {
         given().header("Accept", "application/json").when().get(BASE_URL + "/todos/" + this.taskId)
                 .then().log().ifValidationFails().body("todos[0].tasksof.id", not(hasItem(this.projectId)));
+    }
+
+    @Then("the project should not appear under the projects list")
+    public void verify_project_gone() {
+        given().header("Accept", "application/json").when().get(BASE_URL + "/projects")
+                .then().log().ifValidationFails().body("projects[0].id", not(hasItem(this.projectId)));
     }
 
 }
