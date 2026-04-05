@@ -1,3 +1,3 @@
-# ECSE429-PartB
-Part B of ECSE429
+# ECSE429
+Part A, B and C of ECSE429
 Ida Su Ozdemir 
