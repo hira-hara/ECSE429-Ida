@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.lang.Math;
+
 public class PerformanceTest {
     private static final String BASE_URL = "http://localhost:4567";
     private List<String> createdProjectIds = new ArrayList<>();
@@ -34,29 +36,34 @@ public class PerformanceTest {
                 5000 };
 
         for (int size : sampleSizes) {
-            System.out.println("--- Testing with " + size + " objects ---");
+            System.out.println("Batch " + size + " START: " + java.time.LocalTime.now());
             setupObjects(size);
 
             // Measure Create
-            long startCreate = System.currentTimeMillis();
+            long startCreate = System.nanoTime();
             String id = createProject("Performance Task");
             createdProjectIds.add(id);
-            long endCreate = System.currentTimeMillis();
-            System.out.println("Create time: " + (endCreate - startCreate) + "ms");
+            long endCreate = System.nanoTime();
+            System.out.println("Create time: " + (endCreate - startCreate) * Math.pow(10, -6) + "ms");
 
             // Measure Change
-            long startChange = System.currentTimeMillis();
+            long startChange = System.nanoTime();
             updateProject(id, "Updated Task");
-            long endChange = System.currentTimeMillis();
-            System.out.println("Update time: " + (endChange - startChange) + "ms");
+            long endChange = System.nanoTime();
+            System.out.println("Update time: " + (endChange - startChange) * Math.pow(10, -6) + "ms");
 
             // Measure Delete
-            long startDelete = System.currentTimeMillis();
+            long startDelete = System.nanoTime();
             deleteProject(id);
-            long endDelete = System.currentTimeMillis();
-            System.out.println("Delete time: " + (endDelete - startDelete) + "ms");
+            long endDelete = System.nanoTime();
+            System.out.println("Delete time: " + (endDelete - startDelete) * Math.pow(10, -6) + "ms");
 
             TearDown();
+
+            System.out.println("Batch " + size + " END: " + java.time.LocalTime.now());
+    
+            // Add a 5-second pause so you can see the "cooldown" in the Perfmon graph
+            try { Thread.sleep(5000); } catch (Exception e) {}
         }
     }
 
